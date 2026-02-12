@@ -4,30 +4,15 @@ import time
 
 st.set_page_config(page_title="Smart Student AI", layout="wide")
 
-# ---------- Custom CSS ----------
 st.markdown("""
 <style>
 .stApp {
     background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
     color: white;
 }
-.title {
-    text-align: center;
-    font-size: 42px;
-    font-weight: bold;
-    margin-bottom: 10px;
-}
-.subtitle {
-    text-align: center;
-    font-size: 18px;
-    color: #dcdcdc;
-    margin-bottom: 30px;
-}
-.card {
-    background: rgba(255,255,255,0.08);
-    padding: 25px;
-    border-radius: 18px;
-    box-shadow: 0 0 30px rgba(0,0,0,0.4);
+label {
+    color: white !important;
+    font-weight: 600 !important;
 }
 .footer {
     text-align: center;
@@ -35,65 +20,60 @@ st.markdown("""
     font-size: 14px;
     color: #bbbbbb;
 }
-label {
-    color: white !important;
-    font-weight: 600 !important;
-}
 </style>
 """, unsafe_allow_html=True)
 
-# ---------- Title ----------
-st.markdown('<div class="title">🤖 Smart Student AI Dashboard</div>', unsafe_allow_html=True)
-st.markdown('<div class="subtitle">AI Powered Academic Performance Analyzer</div>', unsafe_allow_html=True)
+st.title("🚀 Smart Student Growth Engine")
+st.write("AI Powered Academic Motivation System")
 
 col1, col2 = st.columns(2)
 
-# ---------- Input Section ----------
 with col1:
-    st.markdown('<div class="card">', unsafe_allow_html=True)
+    study = st.number_input("📚 Study Hours", 0, 12, 4)
+    attendance = st.number_input("🎓 Attendance %", 0, 100, 75)
+    previous = st.number_input("📊 Previous Marks", 0, 100, 60)
+    sleep = st.number_input("😴 Sleep Hours", 0, 12, 6)
+    screen = st.number_input("📱 Screen Time", 0, 12, 4)
 
-    study_hours = st.number_input("📚 Study Hours per Day", 0, 12, 4)
-    attendance = st.number_input("🎓 Attendance Percentage", 0, 100, 75)
-    previous_marks = st.number_input("📊 Previous Marks", 0, 100, 60)
-    sleep_hours = st.number_input("😴 Sleep Hours", 0, 12, 6)
-    screen_time = st.number_input("📱 Screen Time (Hours)", 0, 12, 4)
-
-    st.markdown('</div>', unsafe_allow_html=True)
-
-# ---------- Prediction Section ----------
 with col2:
-    st.markdown('<div class="card">', unsafe_allow_html=True)
-    st.write("### 📊 AI Performance Meter")
 
-    if st.button("🚀 Analyze Now"):
+    if st.button("Analyze My Growth"):
 
-        with st.spinner("AI is analyzing lifestyle patterns..."):
+        with st.spinner("Analyzing your growth potential..."):
             time.sleep(2)
 
-            # Improved Scoring Logic (Out of 100)
-            score = (
-                study_hours * 6 +
+            # Current Score
+            current = (
+                study * 6 +
                 attendance * 0.3 +
-                previous_marks * 0.4 +
-                sleep_hours * 2 -
-                screen_time * 4
+                previous * 0.4 +
+                sleep * 2 -
+                screen * 4
             )
 
-            score = max(0, min(100, score))  # Limit between 0–100
+            current = max(0, min(100, current))
 
-            # Gauge Chart
+            # Ideal Score Calculation
+            ideal = (
+                8 * 6 +
+                95 * 0.3 +
+                85 * 0.4 +
+                8 * 2 -
+                1 * 4
+            )
+
+            ideal = max(0, min(100, ideal))
+
+            gap = round(ideal - current, 2)
+
+            # Gauge
             fig = go.Figure(go.Indicator(
                 mode="gauge+number",
-                value=score,
-                title={'text': "Performance Score"},
+                value=current,
+                title={'text': "Current Growth Score"},
                 gauge={
                     'axis': {'range': [0, 100]},
                     'bar': {'color': "#00ffcc"},
-                    'steps': [
-                        {'range': [0, 40], 'color': "#ff4d4d"},
-                        {'range': [40, 70], 'color': "#ffa500"},
-                        {'range': [70, 100], 'color': "#00cc66"},
-                    ],
                 }
             ))
 
@@ -105,18 +85,32 @@ with col2:
 
             st.plotly_chart(fig, use_container_width=True)
 
-            # Creative Result Message
-            if score >= 75:
-                st.success("🔥 Outstanding Academic Potential Detected!")
-            elif score >= 50:
-                st.info("✨ Stable Performance — Improvement Possible!")
+            # Motivation Section
+            st.subheader("📈 Growth Analysis")
+
+            st.write(f"✨ Your Current Score: {round(current,2)} / 100")
+            st.write(f"🎯 Your Growth Potential: +{gap} points possible!")
+
+            if gap > 20:
+                st.warning("🚀 Massive growth opportunity detected. Small habit changes can transform your results.")
+            elif gap > 10:
+                st.info("🔥 You're close to excellence. Fine-tuning daily habits will boost performance.")
             else:
-                st.error("⚠ Focus Required — Optimize Study Pattern!")
+                st.success("🏆 You're operating near peak performance. Maintain consistency!")
 
-    st.markdown('</div>', unsafe_allow_html=True)
+            st.subheader("🧠 Personalized Action Plan")
 
-# ---------- Footer ----------
-st.markdown(
-    '<div class="footer">Developed with ❤️ by Jayprakash Vishwakarma</div>',
-    unsafe_allow_html=True
-)
+            if study < 6:
+                st.write("📚 Increase study time by 1–2 hours daily.")
+            if screen > 3:
+                st.write("📱 Reduce screen time to improve focus.")
+            if sleep < 7:
+                st.write("😴 Improve sleep schedule for better productivity.")
+            if attendance < 85:
+                st.write("🎓 Maintain consistent attendance.")
+            if previous < 70:
+                st.write("📊 Revise weak subjects to strengthen foundation.")
+
+            st.write("💡 Remember: Consistency beats intensity.")
+
+st.markdown('<div class="footer">Developed by Jayprakash Vishwakarma</div>', unsafe_allow_html=True)

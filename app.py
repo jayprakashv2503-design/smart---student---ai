@@ -1,4 +1,22 @@
 import streamlit as st
+st.markdown("""
+    <style>
+    div.stButton > button {
+        background-color: #4CAF50;
+        color: white;
+        font-weight: bold;
+        border-radius: 10px;
+        height: 50px;
+        width: 100%;
+        font-size: 18px;
+    }
+
+    div.stButton > button:hover {
+        background-color: #45a049;
+        color: white;
+    }
+    </style>
+""", unsafe_allow_html=True)
 import plotly.graph_objects as go
 import time
 
@@ -114,3 +132,4 @@ with col2:
             st.write("💡 Remember: Consistency beats intensity.")
 
 st.markdown('<div class="footer">Developed by Jayprakash Vishwakarma</div>', unsafe_allow_html=True)
+
